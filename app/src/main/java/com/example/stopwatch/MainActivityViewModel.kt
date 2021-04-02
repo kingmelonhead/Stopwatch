@@ -66,6 +66,8 @@ class MainActivityViewModel : ViewModel() {
                 lapNum.value = 0
                 lastLap = 0
                 lapList.value?.clear()
+                lapList.value= arrayListOf()
+
             }
             StopwatchState.RUNNING -> {
                 // Add a Lap
@@ -88,7 +90,8 @@ class MainActivityViewModel : ViewModel() {
     }
 
     private fun recordLap() {
-
+        var tempList : ArrayList<ExampleOutput> = arrayListOf<ExampleOutput>()
+        tempList = lapList.value!!
         tempTime = totalTimeStamp - lastLap
         lastLap = totalTimeStamp
         Log.e("Tag", "Recording lap")
@@ -100,8 +103,8 @@ class MainActivityViewModel : ViewModel() {
         Log.e(null, "lap number: ${lapNum.value}")
         Log.e(null, "lap time trying to be used to make new item: ${lapTime.value}")
         Log.e(null, "size of list at this time (before attempting to make new item): ${lapList.value?.size} $")
-        lapList.value?.add(ExampleOutput(lapTime.value!!, lapNum.value!!))
-
+        tempList.add(ExampleOutput(lapTime.value!!, lapNum.value!!))
+        lapList.value = tempList
         Log.e(null, "size of list at this time (after attempting to make new item): ${lapList.value?.size} $")
         Log.e(null, "lap time from list: ${lapList.value?.get(lapNum.value!! - 1)?.lap_time}")
     }

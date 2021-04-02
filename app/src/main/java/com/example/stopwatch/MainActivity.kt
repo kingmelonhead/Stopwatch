@@ -1,20 +1,23 @@
 package com.example.stopwatch
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.stopwatch.databinding.ActivityMainBinding
 
 
 private lateinit var binding: ActivityMainBinding
 private lateinit var viewModel: MainActivityViewModel
 
-
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         binding = ActivityMainBinding.inflate(this.layoutInflater)
         setContentView(binding.root)
@@ -40,7 +43,9 @@ class MainActivity : AppCompatActivity() {
         viewModel.runState.observe(this, Observer {
             updateButtonState(it)
         })
+
     }
+
 
     private fun updateButtonState(state:StopwatchState) {
         when (state) {

@@ -30,6 +30,7 @@ class LapFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
     }
 
     override fun onCreateView(
@@ -42,15 +43,27 @@ class LapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java)
+        recycler_view.layoutManager = LinearLayoutManager(activity)
         viewModel.lapList.observe(this, Observer {
+            Log.e(null, "inside observer")
             recycler_view.apply {
-                Log.e(null, "Setting adapter")
-                layoutManager = LinearLayoutManager(activity)
-                adapter = RecyclerAdapter(it)
+                Log.e(null, "size of it: ${it.size}")
+                if (it.size == 0){
+                    Log.e(null, "attempting to set adapter")
+                    adapter?.notifyDataSetChanged()
+                    adapter = RecyclerAdapter(it)
+                    setHasFixedSize(true)
+                }
+                else {
+                    Log.e(null, "attempting to update data set")
+                    adapter?.notifyDataSetChanged()
+                }
+
+
             }
         })
-
 
     }
 
@@ -58,5 +71,6 @@ class LapFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
+
 
 }
